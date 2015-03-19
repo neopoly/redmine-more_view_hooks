@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Redmine-more view hooks by neopoly</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Redmine-more view hooks</h1>
+        <p>Allows adding more view hooks into Redmine&#39;s templates</p>
+
+        <p class="view"><a href="https://github.com/neopoly/redmine-more_view_hooks">View the Project on GitHub <small>neopoly/redmine-more_view_hooks</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/neopoly/redmine-more_view_hooks/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/neopoly/redmine-more_view_hooks/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/neopoly/redmine-more_view_hooks">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="redmine-more_view_hooks" class="anchor" href="#redmine-more_view_hooks" aria-hidden="true"><span class="octicon octicon-link"></span></a>redmine-more_view_hooks</h1>
+
+<p><a href="https://rubygems.org/gems/redmine-more_view_hooks"><img src="https://img.shields.io/gem/v/redmine-more_view_hooks.svg" alt="Gem Version"></a>
+<a href="https://inch-ci.org/github/neopoly/redmine-more_view_hooks"><img src="https://inch-ci.org/github/neopoly/redmine-more_view_hooks.svg?branch=master&amp;style=flat" alt="Inline docs"></a></p>
+
+<p><a href="https://rubygems.org/gems/redmine-more_view_hooks">Gem</a> |
+<a href="https://github.com/neopoly/redmine-more_view_hooks">Source</a> |
+<a href="http://rubydoc.info/github/neopoly/redmine-more_view_hooks/master/file/README.md">Documentation</a></p>
+
+<p>Allows adding more view hooks into Redmine's templates</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Ensure you have a <code>Gemfile.local</code> file in your Redmine installation. Add to your <code>Gemfile.local</code>:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s1"><span class="pl-pds">"</span>redmine-more_view_hooks<span class="pl-pds">"</span></span></pre></div>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Restart the Redmine application</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Redmine already includes a concept of "view hooks", but not every place one can think already
+as such a hook. E.g. a hook before the user login status in the top menu is missing.</p>
+
+<p>Let's <em>assume</em> the needed view hook would already exists at the desired position and would be called <code>layout_base_logged_as_before</code>.
+In this case one can simple write a new view hook listener as <a href="http://www.redmine.org/projects/redmine/wiki/Hooks">natively supported from Redmine</a>:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Hooks<span class="pl-e"> &lt; Redmine::Hook::ViewListener</span></span>
+  <span class="pl-c"># Redmine run's this method whenever a &lt;%= call_hook(:layout_base_logged_as_before) %&gt;</span>
+  <span class="pl-c"># is included into the templates.</span>
+  <span class="pl-c"># Attention: This view hook doesn't exists in Redmine and must be realized using this gem</span>
+  <span class="pl-k">def</span> <span class="pl-en">layout_base_logged_as_before</span>(<span class="pl-vpf">context</span>)
+    content_tag <span class="pl-c1">:span</span>, <span class="pl-s1"><span class="pl-pds">"</span>Some additional content<span class="pl-pds">"</span></span>
+  ends
+<span class="pl-k">end</span></pre></div>
+
+<p>To bring this to live we need to add this new view hook into Redmine's base layout template.
+Using this gem you can inject every needed view hooks into every possible template.
+The needed hook can be achieved using the following statement:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-s3">MoreViewHooks</span>.add(
+  <span class="pl-c"># first the name of the new view hook</span>
+  <span class="pl-c1">:layout_base_logged_as_before</span>,
+  <span class="pl-c"># now some Deface options to determine the correct position of the hook</span>
+  <span class="pl-c1">virtual_path:</span>  <span class="pl-s1"><span class="pl-pds">"</span>layouts/base<span class="pl-pds">"</span></span>,
+  <span class="pl-c1">insert_before:</span> <span class="pl-s1"><span class="pl-pds">"</span>#top-menu erb[loud]:contains('if User.current.logged?'):contains('content_tag')<span class="pl-pds">"</span></span>
+)</pre></div>
+
+<p>For more information about the Deface options please have a look at <a href="https://github.com/spree/deface#usage">their documentation</a>.</p>
+
+<p>The correct place to register new view hooks would be when initializing your Redmine plugin.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it ( <a href="https://github.com/neopoly/redmine-more_view_hooks/fork">https://github.com/neopoly/redmine-more_view_hooks/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/neopoly">neopoly</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
