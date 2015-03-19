@@ -1,4 +1,18 @@
+[github]: https://github.com/neopoly/redmine-more_view_hooks
+[doc]: http://rubydoc.info/github/neopoly/redmine-more_view_hooks/master/file/README.md
+[gem]: https://rubygems.org/gems/redmine-more_view_hooks
+[gem-badge]: https://img.shields.io/gem/v/redmine-more_view_hooks.svg
+[inchpages]: https://inch-ci.org/github/neopoly/redmine-more_view_hooks
+[inchpages-badge]: https://inch-ci.org/github/neopoly/redmine-more_view_hooks.svg?branch=master&style=flat
+
 # redmine-more_view_hooks
+
+[![Gem Version][gem-badge]][gem]
+[![Inline docs][inchpages-badge]][inchpages]
+
+[Gem][gem] |
+[Source][github] |
+[Documentation][doc]
 
 Allows adding more view hooks into Redmine's templates
 
