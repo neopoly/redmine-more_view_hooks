@@ -57,7 +57,7 @@ The correct place to register new view hooks would be when initializing your Red
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/redmine-more_view_hooks/fork )
+1. Fork it ( https://github.com/neopoly/redmine-more_view_hooks/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
