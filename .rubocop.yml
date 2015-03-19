@@ -6,3 +6,7 @@ Style/FileName:
 
 Documentation:
   Enabled: false
+
+Lint/HandleExceptions:
+  Exclude:
+    - rakelib/rubocop.rake
