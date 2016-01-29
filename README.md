@@ -47,7 +47,7 @@ class Hooks < Redmine::Hook::ViewListener
   # Attention: This view hook doesn't exists in Redmine and must be realized using this gem
   def layout_base_logged_as_before(context)
     content_tag :span, "Some additional content"
-  ends
+  end
 end
 ```
 
