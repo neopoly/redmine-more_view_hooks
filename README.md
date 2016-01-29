@@ -34,15 +34,15 @@ Restart the Redmine application
 
 ## Usage
 
-Redmine already includes a concept of "view hooks", but not every place one can think already
-as such a hook. E.g. a hook before the user login status in the top menu is missing.
+Redmine already includes a concept of "view hooks", but not every place already
+has such a hook. For example, a hook before the user login status in the top menu is missing.
 
 Let's *assume* the needed view hook would already exists at the desired position and would be called `layout_base_logged_as_before`.
 In this case one can simple write a new view hook listener as [natively supported from Redmine](http://www.redmine.org/projects/redmine/wiki/Hooks):
 
 ```ruby
 class Hooks < Redmine::Hook::ViewListener
-  # Redmine run's this method whenever a <%= call_hook(:layout_base_logged_as_before) %>
+  # Redmine runs this method whenever a <%= call_hook(:layout_base_logged_as_before) %>
   # is included into the templates.
   # Attention: This view hook doesn't exists in Redmine and must be realized using this gem
   def layout_base_logged_as_before(context)
