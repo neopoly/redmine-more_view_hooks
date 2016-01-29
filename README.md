@@ -69,6 +69,33 @@ For more information about the Deface options please have a look at [their docum
 
 The correct place to register new view hooks would be when initializing your Redmine plugin.
 
+### Avoiding hook definitions with identical names
+
+Redmine allows multiple hook definitions with identical names across separate hook listeners.
+
+`MoreViewHooks.add` disallows hook definitions using the same name. So this won't work:
+
+```ruby
+MoreViewHooks.add(:unique_name, ...)
+
+# raises "A view hook 'unique_name' already exists (ArgumentError)"
+MoreViewHooks.add(:unique_name, ...)
+```
+
+Note: Defining a hook via `MoreViewHooks.add` re-using an existing Redmine hook name should work without problems.
+
+Here is an example how to avoid duplicate hook names:
+
+```ruby
+unless Redmine::Hook.hook_listeners(:view_projects_show_left).any?
+  MoreViewHooks.add(:view_projects_show_left,
+    virtual_path: "projects/show",
+    insert_top:   "div.contextual"
+  )
+end
+```
+
+
 ## Contributing
 
 1. Fork it ( https://github.com/neopoly/redmine-more_view_hooks/fork )
