@@ -23,6 +23,7 @@ module MoreViewHooks
     end
 
     def boot!
+      MoreViewHooks.load_default_additional_hooks!
       MoreViewHooks.hooks.apply!
     end
 

@@ -95,6 +95,11 @@ unless Redmine::Hook.hook_listeners(:view_projects_show_left).any?
 end
 ```
 
+## Tested Redmine versions
+
+* Redmine 1.x
+* Redmine 2.x
+* Redmine 3.0 - 3.2
 
 ## Contributing
 

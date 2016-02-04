@@ -14,8 +14,15 @@ MoreViewHooks.instance_eval do
       insert_after: "div.splitcontentright"
   )
 
-  add(:view_projects_show_sidebar_top,
-      virtual_path:  "projects/_sidebar",
-      insert_before: "erb[silent]:contains('if @total_hours.present?')"
-  )
+  if redmine_version_at_least?("3.1")
+    add(:view_projects_show_sidebar_top,
+        virtual_path:  "projects/_sidebar",
+        insert_before: "erb[silent]:contains('if User.current.allowed_to?(:view_time_entries, @project)')"
+    )
+  else
+    add(:view_projects_show_sidebar_top,
+        virtual_path:  "projects/_sidebar",
+        insert_before: "erb[silent]:contains('if @total_hours.present?')"
+    )
+  end
 end

@@ -18,5 +18,13 @@ module MoreViewHooks
   end
   module_function :add
 
-  require "more_view_hooks/default_additional_hooks"
+  def redmine_version_at_least?(other)
+    Gem::Version.new(::Redmine::VERSION) > Gem::Version.new(other)
+  end
+  module_function :redmine_version_at_least?
+
+  def load_default_additional_hooks!
+    require "more_view_hooks/default_additional_hooks"
+  end
+  module_function :load_default_additional_hooks!
 end
